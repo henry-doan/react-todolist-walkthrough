@@ -47,6 +47,18 @@ class App extends Component {
     })
   }
 
+  visibleItems = () => {
+    const { todos, filter } = this.state;
+    switch(filter) {
+      case 'Active':
+        return todos.filter( t => !t.complete)
+      case 'Complete':
+        return todos.filter(t => t.complete)
+      default:
+        return todos;
+    }
+  }
+
   render() {
     const { todos, filter } = this.state
 
@@ -57,7 +69,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <TodoForm addTodo={this.addTodo} />
-        <TodoList todos={todos} todoClick={this.handleClick} />
+        <TodoList todos={this.visibleItems()} todoClick={this.handleClick} />
         <Footer filter={filter} setFilter={this.setFilter} />
       </div>
     );
